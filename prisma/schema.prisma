@@ -20,6 +20,8 @@ model User {
 
   name  String
   email String @unique
+
+  orders Order[]
 }
 
 model Message {
@@ -32,6 +34,79 @@ model Message {
   message String
 
   status Status @default(UNREAD)
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  description String
+  price Decimal
+
+  productColors ProductColor[]
+  orderItems OrderItem[]
+}
+
+model Color {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  hex String
+
+
+  productColors ProductColor[]
+  primaryOrderItems   OrderItem[] @relation("PrimaryColorRelation")
+  secondaryOrderItems OrderItem[] @relation("SecondaryColorRelation")
+}
+
+model ProductColor {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+  colorId Int
+  color Color @relation(fields: [colorId], references: [id])
+
+  @@unique([productId, colorId]) // Ensure each pair is unique
+}
+
+model Order {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  userId     Int
+  user   User @relation(fields: [userId], references: [id])
+
+  orderItems OrderItem[]
+}
+
+model OrderItem { // Join table to store details per product in an order
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  orderId    Int
+  order      Order   @relation(fields: [orderId], references: [id])
+
+  productId  Int
+  product    Product @relation(fields: [productId], references: [id])
+
+  primaryColorId Int
+  primaryColor Color @relation("PrimaryColorRelation", fields: [primaryColorId], references: [id])
+
+  secondaryColorId Int?
+  secondaryColor Color? @relation("SecondaryColorRelation", fields: [secondaryColorId], references: [id])
+  
+
+  quantity   Int     // How many units of this product in the order
+  priceAtPurchase Decimal // Stores price at purchase time
 }
 
 

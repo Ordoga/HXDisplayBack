@@ -1,0 +1,12 @@
+import express from 'express'
+import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from './product.controller.js'
+
+const router = express.Router()
+
+router.get('/', getProducts)
+router.get('/:productId', getProduct)
+router.post('/', createProduct)
+router.put('/:productId', updateProduct)
+router.delete('/:productId', deleteProduct)
+
+export const productRoutes = router
