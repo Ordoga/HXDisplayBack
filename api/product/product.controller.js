@@ -6,6 +6,7 @@ export async function getProducts(req, res) {
         const products = await productService.getAll()
         res.status(200).json(products)
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: err.message })
     }
 }
@@ -16,6 +17,7 @@ export async function getProduct(req, res) {
         const product = await productService.getById(productId)
         res.status(200).json(product)
     } catch (err) {
+        console.log(err)
         res.status(400).send('Could not find product')
     }
 }
@@ -50,6 +52,7 @@ export async function updateProduct(req, res) {
         const updatedProduct = await productService.updateById(productId, data)
         res.status(200).json(updatedProduct)
     } catch (err) {
+        console.log(err)
         res.status(400).send('Could not update product')
     }
 }
@@ -60,6 +63,7 @@ export async function deleteProduct(req, res) {
         const deletedProduct = await productService.deleteById(productId)
         res.status(200).send(deletedProduct)
     } catch (err) {
+        console.log(err)
         res.status(400).send('Could not delete product')
     }
 }

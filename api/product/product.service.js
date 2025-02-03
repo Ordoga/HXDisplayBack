@@ -10,7 +10,21 @@ export const productService = {
 
 async function getAll() {
     try {
-        const products = await db.product.findMany()
+        const products = await db.product.findMany({
+            include: {
+                productColors: {
+                    select: {
+                        color: {
+                            select: {
+                                id: true,
+                                name: true,
+                                hex: true,
+                            },
+                        },
+                    },
+                },
+            },
+        })
         return products
     } catch (err) {
         throw err

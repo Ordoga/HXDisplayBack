@@ -2,8 +2,6 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import path from 'path'
-// import dotenv from 'dotenv'
-// dotenv.config()
 
 import { userRoutes } from './api/user/user.routes.js'
 import { authRoutes } from './api/auth/auth.routes.js'
