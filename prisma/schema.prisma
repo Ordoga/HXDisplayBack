@@ -16,10 +16,10 @@ datasource db {
 model User {
   id    Int    @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   name  String
   email String @unique
+  password String
 
   orders Order[]
 }
@@ -27,7 +27,6 @@ model User {
 model Message {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   name String
   email String
@@ -39,7 +38,6 @@ model Message {
 model Product {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   name String
   description String
@@ -56,7 +54,6 @@ model Color {
 
   name String
   hex String
-
 
   productColors ProductColor[]
   primaryOrderItems   OrderItem[] @relation("PrimaryColorRelation")
@@ -80,7 +77,6 @@ model ProductColor {
 model Order {
   id         Int       @id @default(autoincrement())
   createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
 
   userId     Int
   user   User @relation(fields: [userId], references: [id])
@@ -91,7 +87,6 @@ model Order {
 model OrderItem { // Join table to store details per product in an order
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
 
   orderId    Int
   order      Order   @relation(fields: [orderId], references: [id])

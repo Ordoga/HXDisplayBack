@@ -34,7 +34,6 @@ async function login({ email, password }) {
         throw new Error('Invalid email or password')
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password)
-    console.log(isPasswordCorrect)
     if (!isPasswordCorrect) {
         throw new Error('Invalid email or password')
     }
@@ -43,7 +42,7 @@ async function login({ email, password }) {
 
 async function generateToken(user) {
     try {
-        const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' })
+        const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '24h' })
         return token
     } catch (err) {
         throw err
