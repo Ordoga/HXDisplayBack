@@ -1,6 +1,16 @@
 import { utilService } from '../../services/util.service.js'
 import { productService } from './product.service.js'
 
+export async function fillDB(req, res) {
+    try {
+        const products = await productService.fillDB(req.body)
+        res.status(200).json('success')
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: err.message })
+    }
+}
+
 export async function getProducts(req, res) {
     try {
         const products = await productService.getAll()

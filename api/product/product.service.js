@@ -1,11 +1,22 @@
 import db from '../../services/db.service.js'
 
 export const productService = {
+    fillDB,
     getAll,
     getById,
     createNew,
     updateById,
     deleteById,
+}
+
+async function fillDB(newDB) {
+    try {
+        const products = await db.product.createMany({ data: newDB.products, skipDuplicates: true })
+        const colors = await db.color.createMany({ data: newDB.colors, skipDuplicates: true })
+        const productColors = await db.productColor.createMany({ data: newDB.productColors, skipDuplicates: true })
+    } catch (err) {
+        throw err
+    }
 }
 
 async function getAll() {
